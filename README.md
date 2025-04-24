@@ -6,23 +6,30 @@ This code checks the folder in FILEWATCH_FOLDER_PATH and moves any found to the 
 
 ## Environment variables
 
-FILEWATCH_FOLDER_PATH
+### FILEWATCH_FOLDER_PATH
+
 Where to check for files
 
-FILEWATCH_VERBOSE
+### FILEWATCH_VERBOSE
+
 Default is not verbose, set this to 1 for verbose
 
-FILEWATCH_SNS_TOPIC_ARN;
+### FILEWATCH_SNS_TOPIC_ARN;
+
 Default is not to send SNS messages, set this to your SNS arn to receive messages
 
-FILEWATCH_PROCESS_PATH
+### FILEWATCH_PROCESS_PATH
+
 Where move files that have been processed
 
-FILEWATCH_FAILED_PATH
+### FILEWATCH_FAILED_PATH
+
 If the S3 put fails, the file is moved here
 
-FILEWATCH_ARCHIVE_PATH
+### FILEWATCH_ARCHIVE_PATH
+
 Future use
 
-FILEWATCH_S3_BUCKET
+### FILEWATCH_S3_BUCKET
+
 The S3 bucket to move to
