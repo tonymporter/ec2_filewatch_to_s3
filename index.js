@@ -11,9 +11,11 @@ const s3Client = new S3Client({ region: "eu-west-2" });
 
 const NEWFILES_PATH = process.env.FILEWATCH_FOLDER_PATH;
 const VERBOSE = process.env.FILEWATCH_VERBOSE ?? 0;
-const PROCESS_PATH = './process';
-const FAILED_PATH = './failed';
-const ARCHIVE_PATH = './archive';
+const SNS_TOPIC_ARN = process.env.FILEWATCH_SNS_TOPIC_ARN;
+const S3_BUCKET_NAME = process.env.FILEWATCH_S3_BUCKET_NAME;
+const PROCESS_PATH = process.env.FILEWATCH_PROCESS_PATH ?? './process';
+const FAILED_PATH = process.env.FILEWATCH_FAILED_PATH ?? './failed';
+const ARCHIVE_PATH = process.env.FILEWATCH_ARCHIVE_PATH ?? './archive';
 
 async function uploadToS3(bucketName, key, body) {
 	try {
@@ -96,14 +98,17 @@ async function checkForNewFiles() {
 }
 
 async function sendMessage(message) {
-	// await publishToSNS("arn:aws:sns:eu-west-2:575234670331:sftp_activity", message);
+	if (SNS_TOPIC_ARN) {
+		await publishToSNS(SNS_TOPIC_ARN, message);
+	}
 	console.log(message);
 }
 
 if (!NEWFILES_PATH) {
 	throw new Error('Missing NEWFILES_PATH');
 }
-// await sendMessage("LOADED");
+
+await sendMessage("LOADED");
 await checkForNewFiles();
 
 console.log('done');
